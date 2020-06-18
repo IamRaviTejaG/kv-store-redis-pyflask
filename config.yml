@@ -1,0 +1,14 @@
+# Environment variables for flask app
+
+app:
+    host: 'localhost'
+    port: 5500
+mongo_atlas:
+    db_name: 'keyvalstore'
+    host: 'cluster0-l0l9c.mongodb.net'
+    password: 'RGJUebgIkNSZrZvP'
+    port: 27017
+    username: 'heroku'
+redis:
+    host: 'localhost'
+    port: 6379
