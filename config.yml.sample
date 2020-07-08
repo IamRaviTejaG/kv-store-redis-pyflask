@@ -1,0 +1,22 @@
+# Environment variables for flask app
+
+app:
+    app_name: 'app_name'
+    ec2_machine_dns_url: 'ec2-instance-url.aws-region-1.compute.amazonaws.com'
+    ec2_machine_ipv4: '111.111.111.111'
+    host: 'localhost'
+    machine_name: 'machine_name'
+    port: 5500
+alerts:
+    pushover_token: 'pushover_token'
+    pushover_url: 'https://api.pushover.net/1/messages.json'
+    pushover_user_key: 'pushover_user_key'
+mongo_atlas:
+    db_name: 'db_name'
+    host: 'url.mongodb.net'
+    password: 'password'
+    port: 27017
+    username: 'username'
+redis:
+    host: 'localhost'
+    port: 6379
