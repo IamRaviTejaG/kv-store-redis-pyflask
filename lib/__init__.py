@@ -32,5 +32,5 @@ try:
     # Send pushover alert on successful connection.
     alerts.pushover('OK', 'Connection to Redis & MongoDB established successfully.')
 
-except Exception as e:
-    alerts.pushover('CRITICAL', f'Error establishing Redis/MongoDB connection. Error: {e}')
+except Exception as error:
+    alerts.pushover('CRITICAL', f'Error establishing Redis/MongoDB connection. Error: {error}')

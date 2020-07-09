@@ -40,13 +40,13 @@ def remove_value(key: str) -> None:
 @manager.command
 def runserver():
     """ Sends alert on successful server startup. Hooked before the first
-    request. """
+    request """
     try:
         app.run(host=CONFIG['app']['host'], port=CONFIG['app']['port'])
         alerts.pushover('OK', 'Flask server started successfully.')
-    except Exception as e:
-        alerts.pushover('CRITICAL', f'Flask server failed to start. Error: {e}')
-  
+    except Exception as error:
+        alerts.pushover('CRITICAL', f'Flask server failed to start. Error: {error}')
+
 
 if __name__ == '__main__':
     manager.run()
