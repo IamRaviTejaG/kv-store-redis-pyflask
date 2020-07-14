@@ -6,7 +6,8 @@ import lib
 def remove_value(key: str) -> dict:
     """ Removed entries from redis & database """
 
-    data = dict()
+    data = {}
+
     if key in lib.PROTECTED_KEYS:
         data = {'error': 'Error removing protected keys!'}
     else:

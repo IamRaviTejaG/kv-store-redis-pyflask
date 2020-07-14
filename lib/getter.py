@@ -6,7 +6,7 @@ import lib
 def get_value(key: str) -> dict:
     """ Handles data get requests """
 
-    data = dict()
+    data = {}
 
     if key in lib.PROTECTED_KEYS:
         data = {'error': 'Error getting protected keys!'}

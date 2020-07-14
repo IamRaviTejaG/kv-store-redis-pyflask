@@ -6,7 +6,8 @@ import lib
 def set_value(key: str, value: str) -> dict:
     """ Handles data set operations """
 
-    data = dict()
+    data = {}
+
     if key in lib.PROTECTED_KEYS:
         data = {'error': 'Error setting protected keys!'}
     else:
