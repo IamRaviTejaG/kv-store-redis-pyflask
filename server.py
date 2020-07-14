@@ -1,16 +1,12 @@
 """ Driver code for server """
 
 from flask import Flask
-from flask_script import Manager
-
 
 from config.loader import CONFIG
 from lib import getter, remove, setter
 from lib.utils import alerts
 
-
 app = Flask(__name__)
-manager = Manager(app)
 
 
 @app.route('/', methods=['GET'])
@@ -37,16 +33,14 @@ def remove_value(key: str) -> None:
     return remove.remove_value(key)
 
 
-@manager.command
-def runserver():
-    """ Sends alert on successful server startup. Hooked before the first
-    request """
-    try:
-        app.run(host=CONFIG['app']['host'], port=CONFIG['app']['port'])
-        alerts.pushover('OK', 'Flask server started successfully.')
-    except Exception as error:
-        alerts.pushover('CRITICAL', f'Flask server failed to start. Error: {error}')
+@app.before_first_request
+def dummy() -> None:
+    """ Dummy function to call send OK alert on successful app startup """
+    alerts.pushover('OK', 'Flask server started successfully.')
 
 
 if __name__ == '__main__':
-    manager.run()
+    try:
+        app.run(host=CONFIG['app']['host'], port=CONFIG['app']['port'])
+    except Exception as error:
+        alerts.pushover('CRITICAL', f'Flask server startup failed. Error: {error}')
