@@ -1,6 +1,7 @@
 """ Driver code for server """
 
 from flask import Flask
+from werkzeug.exceptions import HTTPException
 
 from config.loader import CONFIG
 from lib import getter, remove, setter
@@ -42,5 +43,5 @@ def dummy() -> None:
 if __name__ == '__main__':
     try:
         app.run(host=CONFIG['app']['host'], port=CONFIG['app']['port'])
-    except Exception as error:
+    except HTTPException as error:
         alerts.pushover('CRITICAL', f'Flask server startup failed. Error: {error}')
