@@ -1,6 +1,6 @@
 # Key Value Store - Flask
 
-This app uses MongoDB for storage, and  e have a Redis cache layer along with MongoDB for persistent storage.
+This app uses MongoDB for storage, and comes with Redis cache layer for scalability.
 
 ```bash
 AWS CloudWatch
