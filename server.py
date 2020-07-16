@@ -1,13 +1,14 @@
 """ Driver code for server """
 
 from flask import Flask
-from werkzeug.exceptions import HTTPException
+from flask.logging import create_logger
 
 from config.loader import CONFIG
 from lib import getter, remove, setter
 from lib.utils import alerts
 
 app = Flask(__name__)
+logger = create_logger(app)
 
 
 @app.route('/', methods=['GET'])
@@ -43,5 +44,5 @@ def dummy() -> None:
 if __name__ == '__main__':
     try:
         app.run(host=CONFIG['app']['host'], port=CONFIG['app']['port'])
-    except HTTPException as error:
+    except Exception as error:
         alerts.pushover('CRITICAL', f'Flask server startup failed. Error: {error}')

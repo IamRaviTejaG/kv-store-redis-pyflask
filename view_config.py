@@ -4,7 +4,7 @@ import pprint
 
 import yaml
 
-import constants
+from config import constants
 
 print(f'{constants.DECORATOR}\nSESSION CONFIGURATION:\n{constants.DECORATOR}')
 pprint.pprint(yaml.full_load(open('config.yml')))

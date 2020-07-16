@@ -1,9 +1,12 @@
 [MASTER]
-
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-# init-hook='import sys, os; sys.path.append(os.getcwd())'
+init-hook='import sys, os; sys.path.append(os.getcwd())'
 
 
 [FORMAT]
-max-line-length=150
+max-line-length=200
+
+
+[MESSAGES CONTROL]
+disable=W0703

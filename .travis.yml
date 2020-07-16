@@ -1,0 +1,17 @@
+language: python
+dist: xenial
+python:
+  - 3.8
+  - 3.7
+services:
+  - redis-server
+  - mongodb
+env:
+  - FLASK
+install:
+  - pip install -r requirements.txt
+script:
+  - pylint -s n lib/
+  - pylint -s n config/
+  - pylint -s n server.py
+  - pylint -s n view_config.py
