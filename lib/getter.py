@@ -1,6 +1,7 @@
 """ Handles getter requests """
 
-import lib
+from lib import constants, jsonify
+from lib.utils import connections, redis_utils
 
 
 def get_value(key: str) -> dict:
@@ -8,20 +9,20 @@ def get_value(key: str) -> dict:
 
     data = {}
 
-    if key in lib.constants.PROTECTED_KEYS:
+    if key in constants.PROTECTED_KEYS:
         data = {'error': 'Error getting protected keys!'}
     else:
-        redis_cache_value = lib.redisUtils.get_and_incr(key, lib.constants.REDIS_CC)
+        redis_cache_value = redis_utils.get_and_incr(key, constants.REDIS_CC)
         if redis_cache_value is None:
-            lib.redisUtils.incr(lib.constants.DATABASE_CC)
-            db_result = lib.mongoClient.find_one({'key': key})
+            redis_utils.incr(constants.DATABASE_CC)
+            db_result = connections.mongo_client.find_one({'key': key})
             if db_result is None:
                 data = {'error': 'No result found!'}
             else:
-                lib.redisUtils.set_and_incr(key, db_result['value'], lib.constants.REDIS_UPDATE_CC)
+                redis_utils.set_and_incr(key, db_result['value'], constants.REDIS_UPDATE_CC)
                 data = {key: db_result['value']}
         else:
-            lib.redisUtils.expire(key, lib.constants.REDIS_KEY_TTL)
+            redis_utils.expire(key, constants.REDIS_KEY_TTL)
             data = {key: redis_cache_value}
 
-    return lib.jsonify(data)
+    return jsonify(data)
