@@ -6,10 +6,11 @@ from flask import jsonify
 from pymongo import MongoClient
 from redis import Redis
 
-from config.constants import PROTECTED_KEYS
+from config import constants
 from config.loader import CONFIG
-from server import app, logger
 from lib.utils import alerts
+from lib.utils import redis_utils as redisUtils
+from server import app, logger
 
 logging.basicConfig(level=logging.DEBUG)
 

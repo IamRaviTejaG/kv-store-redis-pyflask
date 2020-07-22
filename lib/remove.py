@@ -8,12 +8,11 @@ def remove_value(key: str) -> dict:
 
     data = {}
 
-    if key in lib.PROTECTED_KEYS:
+    if key in lib.constants.PROTECTED_KEYS:
         data = {'error': 'Error removing protected keys!'}
     else:
-        lib.redisClient.delete(key)
-        lib.redisClient.incr('REDIS_CALL_COUNT')  # Increment redis call counter
-        lib.redisClient.incr('DATABASE_CALL_COUNT')  # Increment redis db call counter (for deletion)
+        lib.redisUtils.delete_and_incr(key, lib.constants.REDIS_CC)
+        lib.redisUtils.incr(lib.constants.DATABASE_CC)
         db_result = lib.mongoClient.delete_one({'key': key})  # Removes from the database
         if db_result.deleted_count:
             data = {'message': 'Deleted successfully!'}

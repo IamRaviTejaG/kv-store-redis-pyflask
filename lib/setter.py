@@ -8,15 +8,18 @@ def set_value(key: str, value: str) -> dict:
 
     data = {}
 
-    if key in lib.PROTECTED_KEYS:
+    if key in lib.constants.PROTECTED_KEYS:
         data = {'error': 'Error setting protected keys!'}
     else:
-        lib.redisClient.incr('DATABASE_CALL_COUNT')  # Increment redis db call counter (for write operation below)
+        lib.redisUtils.incr(lib.constants.REDIS_CC)
+        lib.redisUtils.incr(lib.constants.DATABASE_CC)  # Increment redis db call counter (for write operation below)
         db_result = lib.mongoClient.update_one({'key': key}, {'$set': {'value': value}}, upsert=True)
         if db_result.modified_count:
-            lib.redisClient.set(key, value, ex=21600)  # Adds value to redis for update operations
-            lib.redisClient.incr('REDIS_UPDATE_TTL_CALL_COUNT')  # Increment redis call counter
+            lib.redisUtils.set_and_incr(key, value, lib.constants.REDIS_UPDATE_CC)
             data = {'message': 'New value set successfully!'}
+        elif db_result.upserted_id:
+            lib.redisUtils.set_and_incr(key, value, lib.constants.REDIS_UPDATE_CC)
+            data = {'message': 'New value inserted successfully!'}
         else:
             data = {'error': 'Data hasn\'t been modified!'}
 
